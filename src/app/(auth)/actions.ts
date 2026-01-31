@@ -40,3 +40,21 @@ export async function signup(formData: FormData) {
 
     redirect('/login?message=Check email to continue sign in process')
 }
+
+export async function register(formData: FormData) {
+    const supabase = await createClient()
+
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+
+    const { error } = await supabase.auth.signUp({
+        email,
+        password,
+    })
+
+    if (error) {
+        redirect('/register?error=Could not authenticate user')
+    }
+
+    redirect('/login?message=Check email to continue sign in process')
+}

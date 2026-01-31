@@ -1,8 +1,9 @@
 import { exercises } from "@/data/exercises";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ChevronLeft, CheckCircle2, Timer } from "lucide-react";
+import { ChevronLeft, Timer } from "lucide-react";
 import { notFound } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import ExerciseCompletion from "./completion-button";
 
 export function generateStaticParams() {
     return exercises.map((exercise) => ({
@@ -10,7 +11,7 @@ export function generateStaticParams() {
     }))
 }
 
-export default function ExerciseDetailPage({
+export default async function ExerciseDetailPage({
     params,
 }: {
     params: { id: string };
@@ -21,19 +22,34 @@ export default function ExerciseDetailPage({
         notFound();
     }
 
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    let isCompleted = false;
+    if (user) {
+        const { data } = await supabase
+            .from('user_progress')
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('exercise_id', params.id)
+            .single();
+
+        if (data) {
+            isCompleted = true;
+        }
+    }
+
     return (
         <div className="flex flex-col min-h-screen bg-muted/10">
-            <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b px-4 h-16 flex items-center">
-                <div className="container mx-auto flex items-center justify-between">
-                    <Link href="/exercises" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                        <ChevronLeft className="w-4 h-4 mr-1" /> Volver
-                    </Link>
-                    <span className="font-semibold text-sm">{exercise.title}</span>
-                    <div className="w-10"></div> {/* Spacer for centering */}
-                </div>
-            </header>
+            {/* Header removed, using global Navbar */}
 
-            <main className="container mx-auto px-4 py-8 max-w-2xl flex-1 flex flex-col gap-8">
+            <main className="container mx-auto px-4 py-8 max-w-2xl flex-1 flex flex-col gap-6">
+                <div>
+                    <Link href="/exercises" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mb-4">
+                        <ChevronLeft className="w-4 h-4 mr-1" /> Volver al catálogo
+                    </Link>
+                </div>
+
                 <div className="space-y-4">
                     <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-secondary text-secondary-foreground w-fit">
                         {exercise.category}
@@ -66,11 +82,10 @@ export default function ExerciseDetailPage({
                 </div>
 
                 <div className="pt-4 flex justify-center">
-                    <Button size="lg" className="rounded-full px-8 gap-2">
-                        <CheckCircle2 className="w-5 h-5" /> Completar Ejercicio
-                    </Button>
+                    <ExerciseCompletion exerciseId={exercise.id} isCompleted={isCompleted} />
                 </div>
             </main>
         </div>
     )
 }
+

@@ -10,6 +10,10 @@ export const metadata: Metadata = {
     description: "Herramientas y ejercicios para el bienestar emocional. Un enfoque humanista para el estrés, la ansiedad y el crecimiento personal.",
 };
 
+import Navbar from "@/components/navbar";
+
+// ... existing imports ...
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -21,6 +25,7 @@ export default function RootLayout({
                 "min-h-screen bg-background font-sans antialiased text-foreground selection:bg-primary/20",
                 outfit.variable
             )}>
+                <Navbar />
                 <main className="flex min-h-screen flex-col">
                     {children}
                 </main>

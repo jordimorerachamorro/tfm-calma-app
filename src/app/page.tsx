@@ -2,32 +2,15 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Wind, ShieldCheck, Sun } from "lucide-react";
 import Link from "next/link";
 
+// import { createClient } from "@/utils/supabase/server";
+// import { User } from "lucide-react";
+
 export default function Home() {
+    // const supabase = await createClient();
+    // const { data: { user } } = await supabase.auth.getUser();
+
     return (
         <div className="flex flex-col min-h-screen">
-            {/* Header / Nav */}
-            <header className="px-6 h-16 flex items-center justify-between border-b bg-background/50 backdrop-blur-sm sticky top-0 z-50">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
-                        <Sun className="w-5 h-5" />
-                    </div>
-                    <span className="font-semibold text-lg tracking-tight">Calma</span>
-                </div>
-                <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
-                    <Link href="#features" className="hover:text-foreground transition-colors">Herramientas</Link>
-                    <Link href="#about" className="hover:text-foreground transition-colors">Enfoque</Link>
-                    <Link href="/pricing" className="hover:text-foreground transition-colors">Planes</Link>
-                </nav>
-                <div className="flex gap-3">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href="/login">Entrar</Link>
-                    </Button>
-                    <Button size="sm" asChild>
-                        <Link href="/register">Empezar ahora</Link>
-                    </Button>
-                </div>
-            </header>
-
             {/* Hero Section */}
             <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20 md:py-32 max-w-5xl mx-auto space-y-8 animate-in fade-in zoom-in duration-700 slide-in-from-bottom-4">
                 <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-secondary-foreground bg-secondary/50 backdrop-blur-sm mb-4">

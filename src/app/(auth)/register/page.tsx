@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { login } from "../actions";
+import { register } from "../actions";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-export default function LoginPage({
+export default function RegisterPage({
     searchParams,
 }: {
     searchParams: { message: string, error: string };
@@ -17,9 +17,9 @@ export default function LoginPage({
                 >
                     <ChevronLeft className="w-4 h-4 mr-1" /> Volver al inicio
                 </Link>
-                <h1 className="text-2xl font-semibold tracking-tight">Bienvenido a Calma</h1>
+                <h1 className="text-2xl font-semibold tracking-tight">Crear cuenta</h1>
                 <p className="text-sm text-muted-foreground">
-                    Ingresa tus datos para acceder a tu espacio personal
+                    Ingresa tus datos para registrarte en Calma
                 </p>
             </div>
 
@@ -59,14 +59,16 @@ export default function LoginPage({
                 )}
 
                 <div className="flex flex-col gap-2 pt-2">
-                    <Button formAction={login} className="w-full">
+                    <Button formAction={register} className="w-full">
+                        Registrarse
+                    </Button>
+                </div>
+
+                <div className="text-center text-sm text-muted-foreground mt-4">
+                    ¿Ya tienes una cuenta?{" "}
+                    <Link href="/login" className="text-primary hover:underline">
                         Iniciar sesión
-                    </Button>
-                    <Button asChild variant="outline" className="w-full">
-                        <Link href="/register">
-                            Registrarse
-                        </Link>
-                    </Button>
+                    </Link>
                 </div>
             </form>
         </div>
