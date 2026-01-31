@@ -72,7 +72,7 @@ Este proyecto ha sido desarrollado como Trabajo de Fin de Máster, integrando te
 El proyecto está listo para ser desplegado en **Vercel**:
 1.  Subir el código a GitHub.
 2.  Importar el repo en Vercel Dashboard.
-3.  Añadir las variables de entorno (`NEXT_PUBLIC_SUPABASE_...`).
+3.  Añadir las variables de entorno (Importando el .env.production).
 4.  Deploy.
 
 URL de producción: [tfm-calma-app.vercel.app](https://tfm-calma-app.vercel.app)
