@@ -75,7 +75,7 @@ El proyecto está listo para ser desplegado en **Vercel**:
 3.  Añadir las variables de entorno (`NEXT_PUBLIC_SUPABASE_...`).
 4.  Deploy.
 
-URL de producción: *[Pendiente de despliegue]*
+URL de producción: [tfm-calma-app.vercel.app](https://tfm-calma-app.vercel.app)
 
 ## 📄 Presentación
 Las diapositivas de defensa del TFM se encuentran disponibles en el enlace adjunto a la entrega o en la carpeta \`docs/\`.
