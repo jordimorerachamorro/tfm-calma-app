@@ -46,15 +46,24 @@ export async function register(formData: FormData) {
 
     const email = formData.get('email') as string
     const password = formData.get('password') as string
+    const fullName = formData.get('fullName') as string
+
+    console.log('Register attempt for:', email)
 
     const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+            data: {
+                full_name: fullName,
+            },
+        },
     })
 
     if (error) {
-        redirect('/register?error=Could not authenticate user')
+        console.error('Register error:', error)
+        redirect(`/register?error=${encodeURIComponent(error.message)}`)
     }
 
-    redirect('/login?message=Check email to continue sign in process')
+    redirect('/login?message=Revisa tu email para completar el registro')
 }

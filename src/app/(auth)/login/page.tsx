@@ -3,11 +3,13 @@ import { login } from "../actions";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-export default function LoginPage({
+export default async function LoginPage({
     searchParams,
 }: {
-    searchParams: { message: string, error: string };
+    searchParams: Promise<{ message: string, error: string }>;
 }) {
+    const { message, error } = await searchParams;
+
     return (
         <div className="bg-card border rounded-2xl shadow-sm p-8 space-y-6">
             <div className="space-y-2 text-center">
@@ -46,15 +48,15 @@ export default function LoginPage({
                     />
                 </div>
 
-                {searchParams?.message && (
+                {message && (
                     <div className="p-3 bg-secondary/50 text-secondary-foreground text-sm rounded-md text-center">
-                        {searchParams.message}
+                        {message}
                     </div>
                 )}
 
-                {searchParams?.error && (
+                {error && (
                     <div className="p-3 bg-destructive/10 text-destructive text-sm rounded-md text-center">
-                        {searchParams.error}
+                        {error}
                     </div>
                 )}
 
