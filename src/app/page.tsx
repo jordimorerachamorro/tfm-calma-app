@@ -30,7 +30,7 @@ export default function Home() {
                         </Link>
                     </Button>
                     <Button size="lg" variant="outline" className="h-12 px-8 text-base rounded-full bg-background/50 backdrop-blur-sm" asChild>
-                        <Link href="#features">
+                        <Link href="/exercises">
                             Explorar ejercicios
                         </Link>
                     </Button>

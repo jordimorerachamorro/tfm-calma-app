@@ -5,10 +5,15 @@ export interface Exercise {
     title: string;
     description: string;
     category: ExerciseCategory;
-    duration: string; // e.g., "5 min", "15 min"
+    duration: string;
     difficulty: 'Fácil' | 'Medio' | 'Difícil';
-    steps: string[];
-    content?: string; // HTML or Markdown for detailed content
+    // New structured fields
+    purpose: string; // The "Why"
+    frequency: string;
+    materials?: string[];
+    preparation?: string;
+    steps: string[]; // The "How"
+    template_url?: string; // Optional visual aid
 }
 
 export const exercises: Exercise[] = [
@@ -19,18 +24,18 @@ export const exercises: Exercise[] = [
         category: 'Ansiedad',
         duration: '5 min',
         difficulty: 'Fácil',
+        purpose: 'Esta técnica ayuda a regular el sistema nervioso parasimpático, reduciendo el cortisol y enviando una señal inmediata de calma al cerebro. Es ideal para cortar bucles de ansiedad o pánico incipiente.',
+        frequency: 'Úsala siempre que sientas ansiedad aguda, o practica 5 minutos al día para entrenar tu respuesta de relajación.',
+        materials: ['Ninguno', 'Ropa cómoda (opcional)'],
         steps: [
-            'Inhala contando hasta 4.',
-            'Mantén el aire contando hasta 4.',
-            'Exhala contando hasta 4.',
-            'Mantén sin aire contando hasta 4.',
-            'Repite el ciclo durante 5 minutos.'
+            'Siéntate cómodamente con la espalda recta y los pies en el suelo.',
+            'Inhala profundamente por la nariz contando mentalmente hasta 4.',
+            'Retén el aire en tus pulmones contando hasta 4.',
+            'Exhala suavemente por la boca contando hasta 4.',
+            'Mantén los pulmones vacíos contando hasta 4 antes de volver a empezar.',
+            'Repite este ciclo durante al menos 5 minutos.'
         ],
-        content: `
-      <p>La respiración cuadrada (o Box Breathing) es una técnica utilizada incluso por los Navy SEALs para mantener la calma bajo presión.</p>
-      <h3>¿Por qué funciona?</h3>
-      <p>Al regular tu respiración, envías una señal directa a tu sistema nervioso parasimpático de que estás seguro, reduciendo casi inmediatamente los niveles de cortisol.</p>
-    `
+        template_url: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1000&auto=format&fit=crop' // Abstract calm image as placeholder
     },
     {
         id: 'diario-gratitud',
@@ -39,11 +44,16 @@ export const exercises: Exercise[] = [
         category: 'Autoestima',
         duration: '10 min',
         difficulty: 'Fácil',
+        purpose: 'Nuestro cerebro tiene un sesgo negativo natural. Este ejercicio entrena activamente tu mente para detectar y valorar lo positivo, mejorando tu estado de ánimo general y autoconcepto a largo plazo.',
+        frequency: 'Diariamente, preferiblemente antes de dormir o al despertar.',
+        materials: ['Libreta o diario', 'Bolígrafo'],
+        preparation: 'Busca un momento tranquilo donde nadie te interrumpa.',
         steps: [
-            'Busca un lugar tranquilo.',
-            'Escribe 3 cosas por las que te sientas agradecido hoy.',
-            'Intenta que sean cosas específicas de las últimas 24 horas.',
-            'Reflexiona sobre cómo te hacen sentir estas cosas.'
+            'Abre tu libreta en una página nueva.',
+            'Escribe la fecha de hoy.',
+            'Identifica 3 cosas específicas que hayan sucedido en las últimas 24 horas por las que te sientas agradecido.',
+            'Escríbelas detallando "por qué" te hacen sentir bien.',
+            'Tómate un momento para releerlas y conectar con esa sensación.'
         ]
     },
     {
@@ -53,11 +63,18 @@ export const exercises: Exercise[] = [
         category: 'Estrés',
         duration: '15 min',
         difficulty: 'Medio',
+        purpose: 'Nos enseña a identificar dónde acumulamos físicamente el estrés y nos permite soltar esa tensión conscientemente. Mejora la conexión mente-cuerpo.',
+        frequency: '2-3 veces por semana, o cuando sientas mucha tensión física.',
+        materials: ['Esterilla de yoga o cama/sofá', 'Manta ligera (opcional)'],
+        preparation: 'Asegúrate de no tener frío y de usar ropa que no te apriete.',
         steps: [
-            'Túmbate en una posición cómoda.',
-            'Cierra los ojos y lleva la atención a tu respiración.',
-            'Ve llevando la atención lentamente desde los dedos de los pies hasta la cabeza.',
-            'Nota las sensaciones sin juzgar, solo observando.'
+            'Túmbate boca arriba con los brazos a los lados y las palmas hacia arriba.',
+            'Cierra los ojos y haz tres respiraciones profundas.',
+            'Lleva tu atención a los dedos de tus pies. Nota si hay frío, calor o cosquilleo.',
+            'Sube lentamente tu atención por tobillos, gemelos y rodillas, soltando cualquier tensión que encuentres.',
+            'Continúa subiendo por muslos, caderas, abdomen y pecho.',
+            'Finaliza escaneando brazos, cuello y rostro, relajando la mandíbula.',
+            'Quédate unos minutos sintiendo tu cuerpo como un todo antes de moverte.'
         ]
     },
     {
@@ -67,10 +84,18 @@ export const exercises: Exercise[] = [
         category: 'Crecimiento',
         duration: '30 min',
         difficulty: 'Difícil',
+        purpose: 'Permite procesar heridas emocionales del pasado y desarrollar una voz interna más compasiva y protectora, reduciendo la autocrítica destructiva.',
+        frequency: 'Puntual, cuando necesites trabajar un bloqueo emocional profundo.',
+        materials: ['Papel y bolígrafo (mejor que digital)', 'Una foto tuya de pequeño (opcional)'],
+        preparation: 'Este ejercicio puede ser emotivo. Hazlo en un lugar seguro y ten pañuelos cerca.',
         steps: [
-            'Visualízate a ti mismo cuando eras pequeño.',
-            'Escribe una carta desde tu yo adulto dándole lo que necesitaba escuchar.',
-            'Valida sus emociones y prométele protección.'
+            'Si tienes una foto, mírala unos instantes. Si no, cierra los ojos y visualízate a los 5-7 años.',
+            'Empieza la carta: "Querido/a [tu nombre]..."',
+            'Dile a ese niño/a lo que necesitaba escuchar entonces y no escuchó (ej: "Eres válido", "No fue culpa tuya", "Te quiero").',
+            'Explícale que ahora tú eres el adulto y que te encargarás de cuidarle.',
+            'Valida sus emociones: "Entiendo que tuvieras miedo...".',
+            'Despídete con cariño.',
+            'Lee la carta en voz alta para ti mismo si te sientes capaz.'
         ]
     }
 ];
