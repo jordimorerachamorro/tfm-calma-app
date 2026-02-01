@@ -1,6 +1,6 @@
 import { exercises } from "@/data/exercises";
 import Link from "next/link";
-import { ChevronLeft, Timer, Target, ClipboardList, Zap, ArrowRight, BookOpen } from "lucide-react";
+import { ChevronLeft, Timer, Target, ClipboardList, Zap, ArrowRight, BookOpen, AlertTriangle, Headphones } from "lucide-react";
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import ExerciseCompletion from "./completion-button";
@@ -67,6 +67,22 @@ export default async function ExerciseDetailPage({
                     </div>
                 </div>
 
+                {exercise.warning && (
+                    <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm">
+                        <div className="flex items-start">
+                            <div className="flex-shrink-0">
+                                <AlertTriangle className="h-5 w-5 text-amber-500" aria-hidden="true" />
+                            </div>
+                            <div className="ml-3">
+                                <h3 className="text-sm font-medium text-amber-800">Nota Importante de Seguridad</h3>
+                                <div className="mt-2 text-sm text-amber-700">
+                                    <p>{exercise.warning}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Left & Main Content */}
                     <div className="lg:col-span-2 space-y-8">
@@ -92,6 +108,19 @@ export default async function ExerciseDetailPage({
                                 </div>
                                 <h2 className="text-xl font-semibold">Instrucciones Paso a Paso</h2>
                             </div>
+
+                            {exercise.audio_url && (
+                                <div className="p-4 bg-primary/5 rounded-xl border border-primary/10 mb-6">
+                                    <h3 className="font-medium mb-3 flex items-center gap-2 text-primary">
+                                        <Headphones className="w-4 h-4" /> Audio Guía
+                                    </h3>
+                                    <audio controls className="w-full h-10 accent-primary">
+                                        <source src={exercise.audio_url} type="audio/mpeg" />
+                                        Tu navegador no soporta el elemento de audio.
+                                    </audio>
+                                    <p className="text-xs text-muted-foreground mt-2 text-center">Escucha las instrucciones guiadas para una mejor experiencia.</p>
+                                </div>
+                            )}
 
                             <div className="space-y-4">
                                 {exercise.steps.map((step, index) => (

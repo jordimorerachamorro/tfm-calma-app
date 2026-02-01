@@ -14,6 +14,8 @@ export interface Exercise {
     preparation?: string;
     steps: string[]; // The "How"
     template_url?: string; // Optional visual aid
+    warning?: string; // Safety disclaimer
+    audio_url?: string; // Optional guided audio
 }
 
 export const exercises: Exercise[] = [
@@ -65,6 +67,7 @@ export const exercises: Exercise[] = [
         difficulty: 'Medio',
         purpose: 'Nos enseña a identificar dónde acumulamos físicamente el estrés y nos permite soltar esa tensión conscientemente. Mejora la conexión mente-cuerpo.',
         frequency: '2-3 veces por semana, o cuando sientas mucha tensión física.',
+        audio_url: 'https://palousemindfulness.com/es/disks/escaneo-corporal.mp3', // Audio guía de Palouse Mindfulness (MBSR)
         materials: ['Esterilla de yoga o cama/sofá', 'Manta ligera (opcional)'],
         preparation: 'Asegúrate de no tener frío y de usar ropa que no te apriete.',
         steps: [
@@ -86,6 +89,7 @@ export const exercises: Exercise[] = [
         difficulty: 'Difícil',
         purpose: 'Permite procesar heridas emocionales del pasado y desarrollar una voz interna más compasiva y protectora, reduciendo la autocrítica destructiva.',
         frequency: 'Puntual, cuando necesites trabajar un bloqueo emocional profundo.',
+        warning: 'Este ejercicio puede ser emocionalmente intenso. Si sientes que puede desbordarte o despertar traumas pasados (como abusos), te recomendamos encarecidamente que lo realices bajo la supervisión de tu terapeuta.',
         materials: ['Papel y bolígrafo (mejor que digital)', 'Una foto tuya de pequeño (opcional)'],
         preparation: 'Este ejercicio puede ser emotivo. Hazlo en un lugar seguro y ten pañuelos cerca.',
         steps: [
