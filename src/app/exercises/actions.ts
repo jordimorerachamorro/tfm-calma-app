@@ -4,30 +4,50 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function completeExercise(exerciseId: string) {
+export async function toggleExerciseCompletion(exerciseId: string) {
     const supabase = await createClient()
 
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-        // If not logged in, maybe redirect to login or just return error
         redirect('/login')
     }
 
-    const { error } = await supabase
+    // Check if already completed
+    const { data: existing } = await supabase
         .from('user_progress')
-        .insert({
-            user_id: user.id,
-            exercise_id: exerciseId,
-        })
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('exercise_id', exerciseId)
+        .single()
 
-    // Ignore duplicate key error (if already completed)
-    if (error && error.code !== '23505') {
-        console.error('Error completing exercise:', error)
-        return { error: 'Could not mark exercise as completed' }
+    if (existing) {
+        // If exists, delete it (unmark)
+        const { error } = await supabase
+            .from('user_progress')
+            .delete()
+            .eq('id', existing.id)
+
+        if (error) {
+            console.error('Error unmarking exercise:', error)
+            throw new Error('No se pudo desmarcar el ejercicio')
+        }
+    } else {
+        // If not exists, insert it (mark)
+        const { error } = await supabase
+            .from('user_progress')
+            .insert({
+                user_id: user.id,
+                exercise_id: exerciseId,
+            })
+
+        if (error) {
+            console.error('Error completing exercise:', error)
+            throw new Error('No se pudo marcar el ejercicio como completado')
+        }
     }
 
     revalidatePath('/exercises')
     revalidatePath(`/exercises/${exerciseId}`)
-    return { message: 'Exercise completed successfully' }
+    revalidatePath('/profile')
 }

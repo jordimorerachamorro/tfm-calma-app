@@ -5,7 +5,7 @@ export interface Therapist {
     bio: string;
     availability: 'Online' | 'Presencial' | 'Híbrido';
     rate: string;
-    image: string; // URL or placeholder
+    image: string; // URL o placeholder
 }
 
 export const therapists: Therapist[] = [

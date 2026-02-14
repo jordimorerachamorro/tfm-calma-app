@@ -2,14 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test.describe('TFM Calma App - Critical Flows', () => {
 
-    // 1. Homepage Load (Smoke Test)
+    // 1. Carga de la Página de Inicio (Prueba de Humo)
     test('should load homepage successfully', async ({ page }) => {
         await page.goto('/');
         await expect(page).toHaveTitle(/Calma/);
-        await expect(page.getByRole('heading', { name: "Tu espacio de gestión emocional" })).toBeVisible();
+        await expect(page.getByRole('heading', { name: "Gestiona tus emociones con consciencia y calma" })).toBeVisible();
     });
 
-    // 2. Navigation to Exercises
+    // 2. Navegación a Ejercicios
     test('should navigate to exercises catalog', async ({ page }) => {
         await page.goto('/');
         await page.getByRole('link', { name: 'Explorar ejercicios' }).click();
@@ -17,26 +17,40 @@ test.describe('TFM Calma App - Critical Flows', () => {
         await expect(page.getByRole('heading', { name: 'Catálogo de Ejercicios' })).toBeVisible();
     });
 
-    // 3. Exercise Detail View
+    // 3. Vista de Detalle del Ejercicio
     test('should view exercise details', async ({ page }) => {
         await page.goto('/exercises');
-        // Click on the first exercise card (assuming "Respiración Consciente" or similar is first)
+        // Hacer clic en la primera tarjeta de ejercicio (asumiendo que "Respiración Consciente" o similar es la primera)
         await page.locator('a[href^="/exercises/"]').first().click();
 
-        // Verify detail page elements
-        await expect(page.getByRole('heading', { level: 1 })).toBeVisible(); // Title
-        await expect(page.getByText('¿Por qué funciona?')).toBeVisible(); // Purpose section
-        await expect(page.getByText('Instrucciones Paso a Paso')).toBeVisible(); // Steps section
+        // Verificar elementos de la página de detalle
+        await expect(page.getByRole('heading', { level: 1 })).toBeVisible(); // Título
+        await expect(page.getByText('¿Por qué funciona?')).toBeVisible(); // Sección de propósito
+        await expect(page.getByText('Instrucciones Paso a Paso')).toBeVisible(); // Sección de pasos
     });
 
-    // 4. Protected Route Access (Security)
+    // 4. Acceso a Rutas Protegidas (Seguridad)
     test('should redirect unauthenticated users from profile', async ({ page }) => {
         await page.goto('/profile');
-        // Expect redirect to login
+        // Esperar redirección al login
         await expect(page).toHaveURL(/.*login/);
-        await expect(page.getByRole('heading', { name: 'Bienvenido a Calma' })).toBeVisible(); // Login header
+        await expect(page.getByRole('heading', { name: 'Bienvenido a Calma' })).toBeVisible(); // Cabecera del login
     });
 
-    // 5. Auth Flow (Mocked or real if env vars allow - skipping actual login to avoid side effects on prod DB during test without dedicated test user)
-    // Ideally, use a test user or mock auth state.
+    // 5. Directorio de Terapeutas
+    test('should load therapist directory', async ({ page }) => {
+        await page.goto('/therapists');
+        await expect(page).toHaveTitle(/Directorio de Terapeutas/);
+        await expect(page.getByRole('heading', { name: 'Encuentra tu terapeuta' })).toBeVisible();
+        // Verificar si las tarjetas están presentes (asumiendo que los datos simulados se renderizan)
+        await expect(page.locator('.rounded-xl').first()).toBeVisible(); // Clase genérica de tarjeta o similar
+        // Mejor selector basado en mi implementación
+        await expect(page.getByText('Dra. Elena García')).toBeVisible();
+    });
+
+    // 6. Acceso al Diario (Redirige si no se ha iniciado sesión)
+    test('should redirect unauthenticated users from journal', async ({ page }) => {
+        await page.goto('/journal');
+        await expect(page).toHaveURL(/.*login/);
+    });
 });

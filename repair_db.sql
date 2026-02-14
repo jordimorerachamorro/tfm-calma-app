@@ -1,7 +1,7 @@
--- REPAIR SCRIPT FOR CALMA APP
--- Run this in Supabase SQL Editor to fix the missing triggers
+-- SCRIPT DE REPARACIÓN PARA APP CALMA
+-- Ejecuta esto en el Editor SQL de Supabase para arreglar triggers faltantes
 
--- 1. Update the Function (Safe to run multiple times)
+-- 1. Actualizar la Función (Seguro de ejecutar múltiples veces)
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -17,13 +17,13 @@ begin
 end;
 $$;
 
--- 2. Re-create the Trigger (Drops it first to avoid "already exists" error)
+-- 2. Re-crear el Trigger (Lo elimina primero para evitar error de "ya existe")
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
 
--- 3. Ensure User Progress table exists
+-- 3. Asegurar que tabla de Progreso del Usuario exista
 create table if not exists public.user_progress (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references public.profiles(id) on delete cascade not null,
@@ -32,5 +32,5 @@ create table if not exists public.user_progress (
   unique(user_id, exercise_id)
 );
 
--- 4. Ensure RLS is enabled
+-- 4. Asegurar que RLS esté habilitado
 alter table public.user_progress enable row level security;

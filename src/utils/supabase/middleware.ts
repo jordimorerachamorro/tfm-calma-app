@@ -8,7 +8,7 @@ export async function updateSession(request: NextRequest) {
         },
     })
 
-    console.log('[Middleware] Checking session for:', request.nextUrl.pathname)
+    console.log('[Middleware] Comprobando sesión para:', request.nextUrl.pathname)
 
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -35,15 +35,15 @@ export async function updateSession(request: NextRequest) {
 
     const { data: { user } } = await supabase.auth.getUser()
 
-    // 1. Protected Routes: /profile
-    if (request.nextUrl.pathname.startsWith('/profile') && !user) {
-        console.log('[Middleware] Unauthorized access to /profile. Redirecting to /login')
+    // 1. Rutas Protegidas: /profile, /journal
+    if ((request.nextUrl.pathname.startsWith('/profile') || request.nextUrl.pathname.startsWith('/journal')) && !user) {
+        console.log('[Middleware] Acceso no autorizado a ruta protegida. Redirigiendo a /login')
         return NextResponse.redirect(new URL('/login', request.url))
     }
 
-    // 2. Auth Routes: /login, /register (Redirect to profile if already logged in)
+    // 2. Rutas de Auth: /login, /register (Redirigir al perfil si ya se ha iniciado sesión)
     if ((request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register')) && user) {
-        console.log('[Middleware] User already logged in. Redirecting to /profile')
+        console.log('[Middleware] Usuario ya logueado. Redirigiendo a /profile')
         return NextResponse.redirect(new URL('/profile', request.url))
     }
 

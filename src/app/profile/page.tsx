@@ -2,10 +2,14 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { signOut } from "./actions";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import ProfileForm from "./profile-form";
+import { exercises } from "@/data/exercises";
+import { Progress } from "@/components/ui/progress";
+import { CategoryBadge } from "@/components/category-badge";
+import { toggleExerciseCompletion } from "@/app/exercises/actions";
 
 export default async function ProfilePage() {
     const supabase = await createClient();
@@ -21,6 +25,30 @@ export default async function ProfilePage() {
         .select("*")
         .eq("id", user.id)
         .single();
+
+    // Fetch user progress
+    const { data: userProgress } = await supabase
+        .from("user_progress")
+        .select("exercise_id")
+        .eq("user_id", user.id);
+
+    const completedIds = new Set(userProgress?.map((p) => p.exercise_id) || []);
+
+    // Calculate stats
+    const progressStats: Record<string, { total: number; completed: number }> = {};
+    const completedExercisesList: typeof exercises = [];
+
+    exercises.forEach(ex => {
+        if (!progressStats[ex.category]) {
+            progressStats[ex.category] = { total: 0, completed: 0 };
+        }
+        progressStats[ex.category].total++;
+
+        if (completedIds.has(ex.id)) {
+            progressStats[ex.category].completed++;
+            completedExercisesList.push(ex);
+        }
+    });
 
     return (
         <div className="container max-w-2xl px-4 py-8 mx-auto space-y-8">
@@ -55,7 +83,55 @@ export default async function ProfilePage() {
                         </div>
                     </div>
 
-                    <div className="border-t pt-6"></div>
+                    {/* Progress Section */}
+                    <div>
+                        <h3 className="text-lg font-medium mb-4">Tu Progreso</h3>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            {Object.entries(progressStats).map(([category, stats]: [string, any]) => (
+                                <div key={category} className="space-y-2">
+                                    <div className="flex justify-between text-sm">
+                                        <span className="font-medium">{category}</span>
+                                        <span className="text-muted-foreground">{stats.completed}/{stats.total}</span>
+                                    </div>
+                                    <Progress value={(stats.completed / stats.total) * 100} className="h-2" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="border-t"></div>
+
+                    {/* Completed Exercises List */}
+                    <div>
+                        <h3 className="text-lg font-medium mb-4">Ejercicios Completados</h3>
+                        {completedExercisesList.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">Aún no has completado ningún ejercicio.</p>
+                        ) : (
+                            <div className="space-y-4">
+                                {completedExercisesList.map((exercise) => (
+                                    <div key={exercise.id} className="flex items-center justify-between p-4 border rounded-lg bg-card/50">
+                                        <div className="space-y-1">
+                                            <Link href={`/exercises/${exercise.id}`} className="font-medium hover:underline">
+                                                {exercise.title}
+                                            </Link>
+                                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                                <CategoryBadge category={exercise.category} />
+                                                <span>• {exercise.duration}</span>
+                                            </div>
+                                        </div>
+                                        <form action={toggleExerciseCompletion.bind(null, exercise.id)}>
+                                            <Button variant="ghost" size="sm" title="Desmarcar como completado">
+                                                <CheckCircle2 className="w-5 h-5 text-primary fill-primary/20" />
+                                                <span className="sr-only">Desmarcar</span>
+                                            </Button>
+                                        </form>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="border-t"></div>
 
                     {/* Edit Form */}
                     <ProfileForm

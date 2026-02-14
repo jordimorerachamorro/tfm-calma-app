@@ -4,7 +4,7 @@
 *   **Título**: Calma
 *   **Subtítulo**: Plataforma web de gestión emocional y bienestar.
 *   **Autor**: Jordi Morera
-*   **Máster**: Desarrollo de Aplicaciones Web
+*   **Máster**: Desarrollo de Aplicaciones con IA
 *   **Imagen**: Logo de la App o captura de la Home.
 
 ## Diapositiva 2: El Problema
@@ -27,6 +27,7 @@
 ## Diapositiva 5: Funcionalidades Clave (Demo)
 *   **Catálogo de Ejercicios**: Filtrado por necesidad (Ansiedad, Autoestima).
 *   **Experiencia Guiada**: Paso a paso, audios integrados y advertencias de seguridad.
+*   **Diario Emocional**: Espacio privado y seguro para el registro diario de emociones.
 *   **Área Personal**: Registro, Login y seguimiento del progreso de ejercicios completados.
 *   **Conexión Profesional**: Directorio de terapeutas para casos que requieran mayor atención.
 

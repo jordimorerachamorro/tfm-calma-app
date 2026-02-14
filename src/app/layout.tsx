@@ -6,13 +6,35 @@ import { cn } from "@/lib/utils";
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-    title: "Calma - Tu espacio de gestión emocional",
+    title: {
+        default: "Calma - Tu espacio de gestión emocional",
+        template: "%s | Calma"
+    },
     description: "Herramientas y ejercicios para el bienestar emocional. Un enfoque humanista para el estrés, la ansiedad y el crecimiento personal.",
+    keywords: ["salud mental", "ansiedad", "estrés", "psicología", "mindfulness", "diario emocional"],
+    authors: [{ name: "Calma Team" }],
+    creator: "Calma App",
+    openGraph: {
+        type: "website",
+        locale: "es_ES",
+        url: "https://tfm-calma-app.vercel.app",
+        title: "Calma - Gestión Emocional",
+        description: "Tu espacio seguro para el crecimiento personal y la gestión emocional.",
+        siteName: "Calma",
+    },
+    manifest: "/manifest.json",
+};
+
+export const viewport = {
+    themeColor: "#0ea5e9",
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
 };
 
 import Navbar from "@/components/navbar";
 
-// ... existing imports ...
+// ... importaciones existentes ...
 
 export default function RootLayout({
     children,

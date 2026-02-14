@@ -8,9 +8,10 @@
 
 ## 📌 1. Descripción General
 Este proyecto integra tecnologías modernas de desarrollo web con principios de "Calm Technology" (diseño no intrusivo). Su objetivo es proporcionar un espacio seguro y accesible donde los usuarios puedan:
-*   Realizar ejercicios guiados de gestión emocional (journaling, respiración, mindfulness).
+*   Realizar ejercicios guiados de gestión emocional (respiración, mindfulness).
+*   Mantener un **Diario Emocional** privado y seguro.
 *   Registrar su progreso y hábitos.
-*   Contactar con profesionales de la salud mental.
+*   Consultar un **Directorio de Terapeutas** profesionales.
 
 ## 🛠️ 2. Stack Tecnológico
 *   **Frontend**: [Next.js 16](https://nextjs.org/) (App Router, Server Components).
@@ -18,6 +19,7 @@ Este proyecto integra tecnologías modernas de desarrollo web con principios de 
 *   **Estilos**: [Tailwind CSS v4](https://tailwindcss.com/) + [Shadcn/ui](https://ui.shadcn.com/) (Diseño accesible y responsive).
 *   **Backend / Auth**: [Supabase](https://supabase.com/) (PostgreSQL, Auth Helpers, RLS).
 *   **Testing**: [Playwright](https://playwright.dev/) (Pruebas E2E).
+*   **Extras**: Soporte PWA (Manifest), SEO optimizado, i18n (Código comentado en español).
 *   **Despliegue**: Vercel.
 
 ## 🔒 3. Seguridad y Arquitectura
@@ -72,7 +74,9 @@ npx playwright test
 *   `src/app`: Rutas y páginas (App Router).
     *   `(auth)`: Login/Register.
     *   `exercises`: Catálogo y detalle (con lógica de completado).
+    *   `journal`: Diario emocional privado (protegido por RLS).
     *   `profile`: Área privada del usuario.
+    *   `therapists`: Directorio de profesionales.
 *   `src/components`: UI Kit reutilizable (Navbar, Cards, Alerts).
 *   `src/lib` y `src/utils`: Clientes Supabase y utilidades.
 *   `src/middleware.ts`: Barrera de seguridad para rutas protegidas.
