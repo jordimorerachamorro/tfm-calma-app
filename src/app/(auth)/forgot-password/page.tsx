@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { login } from "../actions";
+import { resetPassword } from "../actions";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-export default async function LoginPage({
+export default async function ForgotPasswordPage({
     searchParams,
 }: {
     searchParams: Promise<{ message: string, error: string }>;
@@ -14,14 +14,14 @@ export default async function LoginPage({
         <div className="bg-card border rounded-2xl shadow-sm p-8 space-y-6">
             <div className="space-y-2 text-center">
                 <Link
-                    href="/"
+                    href="/login"
                     className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
                 >
-                    <ChevronLeft className="w-4 h-4 mr-1" /> Volver al inicio
+                    <ChevronLeft className="w-4 h-4 mr-1" /> Volver al login
                 </Link>
-                <h1 className="text-2xl font-semibold tracking-tight">Bienvenido a Calma</h1>
+                <h1 className="text-2xl font-semibold tracking-tight">Recuperar contraseña</h1>
                 <p className="text-sm text-muted-foreground">
-                    Ingresa tus datos para acceder a tu espacio personal
+                    Introduce tu email y te enviaremos un enlace para restablecerla.
                 </p>
             </div>
 
@@ -33,17 +33,7 @@ export default async function LoginPage({
                         id="email"
                         name="email"
                         type="email"
-                        placeholder="hola@ejemplo.com"
-                        required
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="password">Contraseña</label>
-                    <input
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        id="password"
-                        name="password"
-                        type="password"
+                        placeholder="tu@email.com"
                         required
                     />
                 </div>
@@ -60,22 +50,9 @@ export default async function LoginPage({
                     </div>
                 )}
 
-                <div className="flex justify-end">
-                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                        ¿Olvidaste tu contraseña?
-                    </Link>
-                </div>
-
-                <div className="flex flex-col gap-2 pt-2">
-                    <Button formAction={login} className="w-full">
-                        Iniciar sesión
-                    </Button>
-                    <Button asChild variant="outline" className="w-full">
-                        <Link href="/register">
-                            Registrarse
-                        </Link>
-                    </Button>
-                </div>
+                <Button formAction={resetPassword} className="w-full">
+                    Enviar enlace
+                </Button>
             </form>
         </div>
     )

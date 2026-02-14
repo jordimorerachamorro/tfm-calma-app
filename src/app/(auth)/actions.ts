@@ -16,7 +16,7 @@ export async function login(formData: FormData) {
     })
 
     if (error) {
-        redirect('/login?error=Could not authenticate user')
+        redirect('/login?error=No se pudo iniciar sesión. Verifica tus credenciales.')
     }
 
     revalidatePath('/', 'layout')
@@ -35,10 +35,10 @@ export async function signup(formData: FormData) {
     })
 
     if (error) {
-        redirect('/login?message=Could not authenticate user')
+        redirect('/login?message=No se pudo registrar el usuario')
     }
 
-    redirect('/login?message=Check email to continue sign in process')
+    redirect('/login?message=Revisa tu email para continuar con el proceso de registro')
 }
 
 export async function register(formData: FormData) {
@@ -62,8 +62,54 @@ export async function register(formData: FormData) {
 
     if (error) {
         console.error('Register error:', error)
-        redirect(`/register?error=${encodeURIComponent(error.message)}`)
+        redirect(`/register?error=${encodeURIComponent('Error al registrarse: ' + error.message)}`)
     }
 
     redirect('/login?message=Revisa tu email para completar el registro')
+}
+
+export async function resetPassword(formData: FormData) {
+    const supabase = await createClient()
+    const email = formData.get('email') as string
+
+    const headersList = await (await import('next/headers')).headers()
+    const origin = headersList.get('origin')
+
+    console.log('Reset password request for:', email)
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${origin}/auth/callback?next=/update-password`,
+    })
+
+    if (error) {
+        console.error('Reset password error:', error)
+        redirect('/forgot-password?error=No se pudo enviar el correo de recuperación')
+    }
+
+    redirect('/login?message=Revisa tu email para restablecer tu contraseña')
+}
+
+export async function updatePassword(formData: FormData) {
+    const supabase = await createClient()
+    const password = formData.get('new-password') as string
+    const confirmPassword = formData.get('confirm-password') as string
+
+    if (!password || !confirmPassword) {
+        redirect('/update-password?error=Las contraseñas son obligatorias')
+    }
+
+    if (password !== confirmPassword) {
+        redirect('/update-password?error=Las contraseñas no coinciden')
+    }
+
+    const { error } = await supabase.auth.updateUser({
+        password: password
+    })
+
+    if (error) {
+        console.error('Update password error:', error)
+        redirect('/update-password?error=No se pudo actualizar la contraseña')
+    }
+
+    redirect('/profile?message=Contraseña actualizada correctamente')
 }
