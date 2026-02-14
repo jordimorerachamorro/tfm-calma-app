@@ -43,7 +43,7 @@ export default function CompletionButton({
         >
             {isPending ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
-            ) : optimisticCompleted ? (
+            ) : isCompleted ? (
                 <>
                     <CheckCircle2 className="w-5 h-5" /> ¡Completado!
                 </>

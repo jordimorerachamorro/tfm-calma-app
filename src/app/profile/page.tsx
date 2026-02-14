@@ -6,6 +6,7 @@ import { User, LogOut, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import ProfileForm from "./profile-form";
+import PasswordForm from "./password-form";
 import { exercises } from "@/data/exercises";
 import { Progress } from "@/components/ui/progress";
 import { CategoryBadge } from "@/components/category-badge";
@@ -138,6 +139,11 @@ export default async function ProfilePage() {
                         userEmail={user.email!}
                         initialFullName={profile?.full_name || ''}
                     />
+
+                    <div className="border-t"></div>
+
+                    {/* Password Form */}
+                    <PasswordForm />
                 </div>
             </div>
         </div>

@@ -38,3 +38,34 @@ export async function signOut() {
     await supabase.auth.signOut()
     redirect('/login')
 }
+
+export async function changePassword(formData: FormData) {
+    const supabase = await createClient()
+
+    const password = formData.get('new-password') as string
+    const confirmPassword = formData.get('confirm-password') as string
+
+    if (!password || !confirmPassword) {
+        return { error: 'Las contraseñas son obligatorias' }
+    }
+
+    if (password !== confirmPassword) {
+        return { error: 'Las contraseñas no coinciden' }
+    }
+
+    if (password.length < 6) {
+        return { error: 'La contraseña debe tener al menos 6 caracteres' }
+    }
+
+    const { error } = await supabase.auth.updateUser({
+        password: password
+    })
+
+    if (error) {
+        console.error('Change password error:', error)
+        return { error: 'No se pudo actualizar la contraseña' }
+    }
+
+    revalidatePath('/profile')
+    return { message: 'Contraseña actualizada correctamente' }
+}

@@ -16,7 +16,8 @@ export async function login(formData: FormData) {
     })
 
     if (error) {
-        redirect('/login?error=No se pudo iniciar sesión. Verifica tus credenciales.')
+        console.error('Login error:', error)
+        redirect(`/login?error=${encodeURIComponent(error.message)}`)
     }
 
     revalidatePath('/', 'layout')
@@ -48,21 +49,33 @@ export async function register(formData: FormData) {
     const password = formData.get('password') as string
     const fullName = formData.get('fullName') as string
 
-    console.log('Register attempt for:', email)
+    const headersList = await (await import('next/headers')).headers()
+    const origin = headersList.get('origin')
 
-    const { error } = await supabase.auth.signUp({
+    console.log('Register attempt for:', email)
+    console.log('Origin:', origin)
+
+    const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
             data: {
                 full_name: fullName,
             },
+            emailRedirectTo: `${origin}/auth/callback`,
         },
     })
 
     if (error) {
-        console.error('Register error:', error)
+        console.error('Register error (Supabase):', error)
         redirect(`/register?error=${encodeURIComponent('Error al registrarse: ' + error.message)}`)
+    }
+
+    console.log('Register successful:', data)
+
+    if (data.user && data.user.identities && data.user.identities.length === 0) {
+        console.warn('User registered but identity missing (User already exists?)')
+        redirect('/login?message=El usuario ya existe. Intenta iniciar sesión.')
     }
 
     redirect('/login?message=Revisa tu email para completar el registro')
