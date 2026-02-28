@@ -17,7 +17,7 @@ export async function createJournalEntry(formData: FormData) {
     const mood = formData.get('mood') as string;
 
     if (!content) {
-        return { error: 'El contenido es obligatorio' };
+        throw new Error('El contenido es obligatorio');
     }
 
     const { error } = await supabase
