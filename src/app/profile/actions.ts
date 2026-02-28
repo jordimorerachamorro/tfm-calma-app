@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { validatePassword } from "@/utils/password";
 
 export async function updateProfile(formData: FormData) {
     const supabase = await createClient()
@@ -53,8 +54,9 @@ export async function changePassword(formData: FormData) {
         return { error: 'Las contraseñas no coinciden' }
     }
 
-    if (password.length < 6) {
-        return { error: 'La contraseña debe tener al menos 6 caracteres' }
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        return { error: passwordError }
     }
 
     const { error } = await supabase.auth.updateUser({

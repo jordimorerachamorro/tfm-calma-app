@@ -54,8 +54,12 @@ export default async function RegisterPage({
                         id="password"
                         name="password"
                         type="password"
+                        minLength={8}
                         required
                     />
+                    <p className="text-xs text-muted-foreground">
+                        Mínimo 8 caracteres, incluyendo mayúscula, minúscula, número y carácter especial.
+                    </p>
                 </div>
 
                 {message && (

@@ -44,8 +44,8 @@ export default function PasswordForm() {
                             id="new-password"
                             name="new-password"
                             type="password"
-                            placeholder="Mínimo 6 caracteres"
-                            minLength={6}
+                            placeholder="Mínimo 8 caracteres"
+                            minLength={8}
                             required
                         />
                     </div>
@@ -57,11 +57,14 @@ export default function PasswordForm() {
                             name="confirm-password"
                             type="password"
                             placeholder="Repite la contraseña"
-                            minLength={6}
+                            minLength={8}
                             required
                         />
                     </div>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                    La contraseña debe tener al menos 8 caracteres, incluir mayúscula, minúscula, número y carácter especial.
+                </p>
 
                 {message && (
                     <div className="flex items-center gap-2 p-3 bg-green-50 text-green-700 text-sm rounded-md">

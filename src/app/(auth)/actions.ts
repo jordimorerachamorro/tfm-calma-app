@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { validatePassword } from "@/utils/password";
 
 export async function login(formData: FormData) {
     const supabase = await createClient()
@@ -30,6 +31,11 @@ export async function signup(formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        redirect(`/login?error=${encodeURIComponent(passwordError)}`)
+    }
+
     const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -48,6 +54,11 @@ export async function register(formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const fullName = formData.get('fullName') as string
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        redirect(`/register?error=${encodeURIComponent(passwordError)}`)
+    }
 
     const headersList = await (await import('next/headers')).headers()
     const origin = headersList.get('origin')
@@ -109,6 +120,11 @@ export async function updatePassword(formData: FormData) {
 
     if (!password || !confirmPassword) {
         redirect('/update-password?error=Las contraseñas son obligatorias')
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        redirect(`/update-password?error=${encodeURIComponent(passwordError)}`)
     }
 
     if (password !== confirmPassword) {
