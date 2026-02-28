@@ -13,7 +13,15 @@ Este proyecto integra tecnologías modernas de desarrollo web con principios de 
 *   Registrar su progreso y hábitos.
 *   Consultar un **Directorio de Terapeutas** profesionales.
 
-## 🛠️ 2. Stack Tecnológico
+## 🌟 2. Funcionalidades Principales
+Para cumplir con los objetivos del proyecto, la aplicación ofrece las siguientes características clave:
+*   **Autenticación y Seguridad:** Registro, inicio de sesión y recuperación de contraseñas. Acceso protegido a áreas privadas mediante Supabase Auth y RLS.
+*   **Catálogo de Ejercicios Guiados:** Biblioteca de ejercicios categorizados (ansiedad, estrés, autoestima) con instrucciones paso a paso.
+*   **Diario Emocional Privado:** Espacio seguro donde el usuario puede registrar diariamente su estado emocional y pensamientos íntimos.
+*   **Área de Perfil y Progreso:** Seguimiento del historial de ejercicios completados y gestión de datos personales.
+*   **Directorio de Profesionales:** Listado de terapeutas verificados para facilitar la búsqueda de ayuda profesional si el usuario lo requiere.
+
+## 🛠️ 3. Stack Tecnológico
 *   **Frontend**: [Next.js 16](https://nextjs.org/) (App Router, Server Components).
 *   **Lenguaje**: TypeScript (Tipado estricto para mayor robustez).
 *   **Estilos**: [Tailwind CSS v4](https://tailwindcss.com/) + [Shadcn/ui](https://ui.shadcn.com/) (Diseño accesible y responsive).
@@ -22,13 +30,13 @@ Este proyecto integra tecnologías modernas de desarrollo web con principios de 
 *   **Extras**: Soporte PWA (Manifest), SEO optimizado, i18n (Código comentado en español).
 *   **Despliegue**: Vercel.
 
-## 🔒 3. Seguridad y Arquitectura
+## 🔒 4. Seguridad y Arquitectura
 La seguridad es un pilar fundamental en **Calma**, dado el tratamiento de datos sensibles:
 *   **Middleware**: Protección de rutas privadas (`/profile`) mediante `src/middleware.ts`, asegurando que solo usuarios autenticados accedan.
 *   **Row Level Security (RLS)**: Políticas de base de datos en PostgreSQL que garantizan que cada usuario solo pueda leer/escribir su propio progreso (`user_progress`) y perfil (`profiles`).
 *   **Autenticación**: Gestión de sesiones segura vía Supabase Auth (JWT).
 
-## 🚀 4. Instalación y Ejecución
+## 🚀 5. Instalación y Ejecución
 
 ### Requisitos Previos
 *   Node.js (v18 o superior).
@@ -62,7 +70,7 @@ La seguridad es un pilar fundamental en **Calma**, dado el tratamiento de datos 
     ```
     Visita [http://localhost:3000](http://localhost:3000).
 
-## ✅ 5. Testing
+## ✅ 6. Testing
 El proyecto cuenta con una suite de pruebas End-to-End (E2E) con Playwright para verificar los flujos críticos (Navegación, Auth, Carga).
 
 Ejecutar tests:
@@ -70,7 +78,7 @@ Ejecutar tests:
 npx playwright test
 ```
 
-## 📁 6. Estructura del Proyecto
+## 📁 7. Estructura del Proyecto
 *   `src/app`: Rutas y páginas (App Router).
     *   `(auth)`: Login/Register.
     *   `exercises`: Catálogo y detalle (con lógica de completado).
@@ -82,8 +90,8 @@ npx playwright test
 *   `src/middleware.ts`: Barrera de seguridad para rutas protegidas.
 *   `tests/`: Tests E2E.
 
-## 📄 7. Presentación
+## 📄 8. Presentación
 El guion y esquema de la presentación para la defensa del TFM se encuentra en el archivo [SLIDES.md](./SLIDES.md).
 
-## 🌐 8. Despliegue
+## 🌐 9. Despliegue
 URL de producción (Demo): [https://tfm-calma-app.vercel.app](https://tfm-calma-app.vercel.app)
