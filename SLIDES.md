@@ -18,24 +18,26 @@
 3.  **Usabilidad**: Diseño centrado en el usuario (Human-Centered Design).
 
 ## Diapositiva 4: Stack Tecnológico (La Solución Técnica)
-*   **Frontend**: Next.js 16 (Rendimiento y SEO).
-*   **Estilos**: Tailwind CSS (Diseño mantenible y responsive).
+*   **Frontend**: Next.js 16 (App Router, Server Components y Server Actions).
+*   **Estilos**: Tailwind CSS (Diseño mantenible y responsive) + UI Shadcn.
 *   **Backend**: Supabase (Backend-as-a-Service escalable).
-*   **Base de Datos**: PostgreSQL + RLS (Seguridad a nivel de fila).
-*   **Testing**: Playwright (Calidad de software).
+*   **Base de Datos**: PostgreSQL + RLS (Seguridad a nivel de fila y políticas granulares).
+*   **Testing**: Playwright (Pruebas E2E automatizadas).
 
-## Diapositiva 5: Funcionalidades Clave (Demo)
+## Diapositiva 5: Funcionalidades Clave y Arquitectura Segura (Demo)
 *   **Catálogo de Ejercicios**: Filtrado por necesidad (Ansiedad, Autoestima).
 *   **Experiencia Guiada**: Paso a paso, audios integrados y advertencias de seguridad.
-*   **Diario Emocional**: Espacio privado y seguro para el registro diario de emociones.
-*   **Área Personal**: Registro, Login y seguimiento del progreso de ejercicios completados.
-*   **Conexión Profesional**: Directorio de terapeutas para casos que requieran mayor atención.
+*   **Diario Emocional Privado**: Espacio seguro para el registro diario de emociones.
+*   **Autenticación y Perfil Robusto**: Login, registro y validación estricta de contraseñas (reglas de complejidad) ejecutadas en servidor y cliente.
+*   **Conexión Profesional**: Directorio de terapeutas.
 
-## Diapositiva 6: Desafíos y Soluciones
-*   **Desafío**: Manejo de rutas protegidas y estado del usuario.
-    *   *Solución*: Implementación de Middleware y gestión de sesión con Supabase Auth.
-*   **Desafío**: Seguridad de los datos personales.
-    *   *Solución*: Implementación de Row Level Security (RLS) en base de datos.
+## Diapositiva 6: Desafíos Técnicos y Soluciones
+*   **Desafío**: Manejo de rutas protegidas y estado del usuario en el Servidor (SSR).
+    *   *Solución*: Implementación de un Middleware en Next.js gestionando el flujo de sesión y refresco de tokens con Supabase Auth.
+*   **Desafío**: Aislamiento y privacidad total de los datos (Diario Emocional).
+    *   *Solución*: Implementación de Row Level Security (RLS) en PostgreSQL, garantizando a nivel de base de datos que ni siquiera por error en el código de backend un usuario pueda acceder a datos de otro.
+*   **Desafío**: Mutación de datos segura y tipado estricto entre Cliente/Servidor.
+    *   *Solución*: Uso de *Server Actions* nativos de Next.js, prescindiendo de APIs REST intermedias e implementando validaciones robustas con el objeto estándar `FormData` y manejo de excepciones directas (`throw new Error()`).
 
 ## Diapositiva 7: Conclusiones y Futuro
 *   **Logros**: MVP funcional, seguro y desplegado.
