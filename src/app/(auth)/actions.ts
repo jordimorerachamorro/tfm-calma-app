@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { validatePassword } from "@/utils/password";
+import { getURL } from "@/utils/url";
 
 export async function login(formData: FormData) {
     const supabase = await createClient()
@@ -60,8 +61,8 @@ export async function register(formData: FormData) {
         redirect(`/register?error=${encodeURIComponent(passwordError)}`)
     }
 
-    const headersList = await (await import('next/headers')).headers()
-    const origin = headersList.get('origin')
+    const origin = getURL()
+
 
     console.log('Register attempt for:', email)
     console.log('Origin:', origin)
@@ -73,7 +74,8 @@ export async function register(formData: FormData) {
             data: {
                 full_name: fullName,
             },
-            emailRedirectTo: `${origin}/auth/callback`,
+            emailRedirectTo: `${origin}auth/callback`,
+
         },
     })
 
@@ -96,13 +98,14 @@ export async function resetPassword(formData: FormData) {
     const supabase = await createClient()
     const email = formData.get('email') as string
 
-    const headersList = await (await import('next/headers')).headers()
-    const origin = headersList.get('origin')
+    const origin = getURL()
+
 
     console.log('Reset password request for:', email)
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${origin}/auth/callback?next=/update-password`,
+        redirectTo: `${origin}auth/callback?next=/update-password`,
+
     })
 
     if (error) {
